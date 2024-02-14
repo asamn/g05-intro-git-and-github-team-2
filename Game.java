@@ -38,14 +38,13 @@ public class Game {
 
         // Run game
         buildTree();
-        TreeNode curr = root;
+        TreeNode curr = root; 
     
         while(curr != null) {
             System.out.println(curr.getText());
             if(s.hasNextInt()){
-                
             
-            if(curr.equals(moveToStatueRoom)) {
+            if(curr.equals(moveToStatueRoom)) { //if currentRoom is this
                 //System.out.println(moveToStatueRoom.getText());
                 if(playPuzzle(s) == 0) {
                     curr = leverIncorrect;
@@ -73,7 +72,6 @@ public class Game {
                 System.out.print("Congratulations, "+p.getName()+", you win!\n");
             }
            
-            
             curr = turn(p, curr, s);
         }
         else{
@@ -88,9 +86,8 @@ public class Game {
         }
 
         System.out.println("Game Over!");
-
+        
         s.close();
-      
     }
 
     /*
