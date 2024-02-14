@@ -27,7 +27,6 @@ public class Game {
     public static TreeNode attackAgain = new TreeNode("Although severely wounded, you are able to defeat the minotaur. Enter 1 to proceed");
     public static TreeNode winFight = new TreeNode("Directly behind the throne is a chest filled with gold and a door that leads to the outside. Press 1 to Finish the Game.");
 
-
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
 
@@ -35,50 +34,61 @@ public class Game {
         System.out.print("Enter a name for your player: ");
         Player p = new Player(s.nextLine());
         System.out.print("\n");
-
+        System.out.println("Enter \"inventory\" to open your inventory.");
         // Run game
         buildTree();
         TreeNode curr = root;
     
         while(curr != null) {
             System.out.println(curr.getText());
-            if(s.hasNextInt()){
-                
-            
-            if(curr.equals(moveToStatueRoom)) {
-                //System.out.println(moveToStatueRoom.getText());
-                if(playPuzzle(s) == 0) {
-                    curr = leverIncorrect;
-                    break;
+
+            //read input
+
+            String input = s.next();
+            System.out.println("==========================================================");
+            if (!isInt(input)) //is string
+            {
+                if (input.toLowerCase().equals("inventory"))
+                {
+                    System.out.println(p.getInv());
                 }
-                else {
-                    curr = leverCorrect;
-                    System.out.println(curr.getText());
+                else
+                {
+                    System.out.println("I don't understand that command.");
                 }
             }
-            if(curr == takeRing){
-                p.setRing();
-                
-            }
-            if(curr == hitChest){
-                p.setEmpowered();
-            }
-            if(curr == EnterBossRoom && p.getRing() == false){
-                EnterBossRoom.removeAdjacent(ringOfFireball);
-            }
-            if(curr == EnterBossRoom && p.getEmpowered() == false){
-                EnterBossRoom.removeAdjacent(attackEmpower);
-            }
-            if(curr == winFight){
-                System.out.print("Congratulations, "+p.getName()+", you win!\n");
-            }
-           
-            
-            curr = turn(p, curr, s);
+            else if(isInt(input)){
+                if(curr.equals(moveToStatueRoom)) { //if currentRoom is this
+                    //System.out.println(moveToStatueRoom.getText());
+                    if(playPuzzle(s,p) == 0) {
+                        curr = leverIncorrect;
+                        break;
+                    }
+                    else {
+                        curr = leverCorrect;
+                        System.out.println(curr.getText());
+                    }
+                }
+                if(curr == attackSkeleton){
+                    p.setRing();
+                    
+                }
+                if(curr == openChest){
+                    p.setEmpowered();
+                }
+                if(curr == EnterBossRoom && p.getRing() == false){
+                    EnterBossRoom.removeAdjacent(ringOfFireball);
+                }
+                if(curr == EnterBossRoom && p.getEmpowered() == false){
+                    EnterBossRoom.removeAdjacent(attackEmpower);
+                }
+                if(curr == winFight){
+                    System.out.print("Congratulations, "+p.getName()+", you win!\n");
+                }
+                curr = turn(p, curr, s, Integer.parseInt(input));
         }
         else{
-            System.out.println("Invalid Input: Please Enter an Integer.");
-            s.nextLine();
+            System.out.println("Invalid Input");
             continue;
         }
         }
@@ -125,8 +135,6 @@ public class Game {
         // Ring
         takeRing.addAdjacent(moveToStatueRoom);
      
-
-        
         // Lever Correct
         leverCorrect.addAdjacent(backToStart);
 
@@ -166,8 +174,6 @@ public class Game {
 
         // Attack again
         attackAgain.addAdjacent(winFight);
-
-     
     }
 
     /**
@@ -175,14 +181,14 @@ public class Game {
      * @param s Scanner for input
      * @return Integer based on result; 0 for loss, 1 for win
      */
-    public static int playPuzzle(Scanner s) {
+    public static int playPuzzle(Scanner s, Player p) {
         int left = 0;
         int mid = 1;
         int right = 2;
         Queue<Integer> qLeft = new LinkedBlockingQueue<Integer>();
         Queue<Integer> qMid = new LinkedBlockingQueue<Integer>();
         Queue<Integer> qRight = new LinkedBlockingQueue<Integer>();
-        int choice = s.nextInt();
+        
 
         // Set queues
         qLeft.offer(1);
@@ -194,11 +200,30 @@ public class Game {
         qRight.offer(0);
         qRight.offer(1);
 
+        int choice = 0;
         while(choice != 4) {
+            choice = 0; //reset choice
             System.out.println("Press 1 for button in front of left statue, 2 for middle, 3 for right. To pull the lever, press 4");
             System.out.printf("Current Layout: %s %s %s%n", statueType(left), statueType(mid), statueType(right));
-            choice = s.nextInt();
+            String inputChoice = s.next();
 
+            //ability to check inv during the puzzle sequence
+            if(isInt(inputChoice))
+            {
+                choice = Integer.parseInt(inputChoice);
+            }
+            else
+            {
+                
+                if (inputChoice.toLowerCase().equals("inventory"))
+                {
+                    System.out.println(p.getInv());                    
+                }
+                else
+                {
+                    System.out.println("I don't understand that command.");
+                }
+            }
             if(choice == 1) {
                 qLeft.offer(left);
                 left = qLeft.poll();
@@ -231,11 +256,11 @@ public class Game {
      * Player's turn; player will choose an option, and we will update the current node based on the decision
      * @param p The player
      * @param curr The node we are currently at
-     * @param s Scanner for user input
+     * @param inputChoice int of user input
      * @return Result node
      */
     
-    public static TreeNode turn(Player p, TreeNode curr, Scanner s) {
+    public static TreeNode turn(Player p, TreeNode curr, Scanner s, int inputChoice) {
         if(curr.getChildren().size() == 0) {
             return null;
         }
@@ -256,16 +281,28 @@ public class Game {
             }
         }
        
-        int choice = s.nextInt();
-
-        while(choice < 1 || choice > curr.getChildren().size()) {
+        while(inputChoice < 1 || inputChoice > curr.getChildren().size()) {
             System.out.println("Please enter a valid choice.");
-            choice = s.nextInt();
+            inputChoice = s.nextInt();
         }
 
-       
+        return curr.getChildren().get(inputChoice-1);
+    }
+    public static boolean isInt(String s)
+    {
+        try
+        {
+            Integer.parseInt((s));
+            return true;
+        }
+        catch (Exception e) 
+        {
+            return false;
+        }
+    }
 
-        return curr.getChildren().get(choice-1);
-    
+    public static void printInv()
+    {
+
     }
 }
