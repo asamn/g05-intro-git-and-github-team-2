@@ -263,8 +263,6 @@ public class Game {
             choice = s.nextInt();
         }
 
-       
-
         return curr.getChildren().get(choice-1);
     
     }
