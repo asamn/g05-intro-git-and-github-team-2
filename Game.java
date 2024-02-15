@@ -27,6 +27,33 @@ public class Game {
     public static TreeNode attackAgain = new TreeNode("Although severely wounded, you are able to defeat the minotaur. Enter 1 to proceed");
     public static TreeNode winFight = new TreeNode("Directly behind the throne is a chest filled with gold and a door that leads to the outside. Press 1 to Finish the Game.");
 
+    private int currentLevel;
+    static int maxLevel = 5;
+    
+    public Next_Level() {
+        this.currentLevel = 1;
+    }
+    
+    public void startNewLevel() {
+    	if (currentLevel == maxLevel-1) 
+            System.out.println("You're at the final level! Level " + currentLevel);
+    	else if (currentLevel < maxLevel)
+    		System.out.println("Starting Level " + currentLevel);
+    	System.out.println();
+    }
+    
+    public void completeLevel() {
+    	if (currentLevel == maxLevel-1) {
+    		System.out.println("Congratulations! You win the game");
+    		System.out.println();
+    		System.exit(currentLevel);
+    	}
+    	else if (currentLevel < maxLevel) {
+            System.out.println("Congratulations! You have completed Level " + currentLevel);
+            System.out.println();
+            currentLevel++;
+    	}
+    }
 
     public static void main(String[] args) {
         Scanner s = new Scanner(System.in);
@@ -85,6 +112,12 @@ public class Game {
             System.out.println(leverIncorrect.getText());
         }
 
+        Game game = new Game();   
+        for (int i = 0; i < maxLevel; i++) {
+            game.startNewLevel();
+            game.completeLevel();
+        }
+        
         System.out.println("Game Over!");
         
         s.close();
