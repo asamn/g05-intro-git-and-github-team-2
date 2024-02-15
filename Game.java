@@ -220,24 +220,22 @@ public class Game {
             {
                 choice = Integer.parseInt(inputChoice);
             }
-            else if (inputChoice.toLowerCase().equals("a"))
-            {
-                choice = 1;
-            }
-            else if (inputChoice.toLowerCase().equals("w"))
-            {
-                choice = 2;
-            }
-            else if (inputChoice.toLowerCase().equals("d"))
-            {
-                choice = 3;
-            }
             else
             {
-                
                 if (inputChoice.toLowerCase().equals("inventory"))
                 {
                     System.out.println(p.getInv());                    
+                }
+                if (inputChoice.toLowerCase().equals("a")){
+                    choice = 1;
+                }
+                if (inputChoice.toLowerCase().equals("w"))
+                {
+                    choice = 2;
+                }
+                if (inputChoice.toLowerCase().equals("d"))
+                {
+                    choice = 3;
                 }
                 else
                 {
