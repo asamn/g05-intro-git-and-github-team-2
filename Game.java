@@ -30,7 +30,7 @@ public class Game {
     private int currentLevel;
     static int maxLevel = 5;
     
-    public Next_Level() {
+    public Game() {
         this.currentLevel = 1;
     }
     
