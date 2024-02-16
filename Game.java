@@ -5,7 +5,7 @@ import java.util.Queue;
 public class Game {
 
     // Create all nodes first
-    public static TreeNode root = new TreeNode("You wake up in a labyrinth-like maze with no exit in sight. Enter 1 or 'A' to turn left, 2 or 'D' to turn right.");
+    public static TreeNode root = new TreeNode("You wake up in a labyrinth-like maze with no exit in sight. Enter 1 or 'A' to turn left, 2 or 'W' to turn right.");
     public static TreeNode toSkeleton = new TreeNode("You turn left and enter a room. You see a skeleton in the corner. It has a shining red ring on its finger and a dagger in its other hand. Enter 1 or 'A' to take the ring, 2 or 'W' to continue forward and ignore it.");
     public static TreeNode tryTakeRing = new TreeNode("You walk up to the skeleton and attempt to take the ring. The skeleton suddenly awakens and raises its dagger, cutting you across your right shoulder. You are now injured. Enter 1 or 'A' attack the skeleton, 2 or 'W' to continue past it.");
     public static TreeNode attackSkeleton = new TreeNode("You attack the skeleton. It crumbles under your blow, turning to dust. Only the red ring remains on the ground. Press 1 or 'A' to collect it and continue forward.");
@@ -52,13 +52,13 @@ public class Game {
                 {
                     System.out.println(p.getInv());
                 }
-                if (input.toLowerCase().equals("a")){
+                else if (input.toLowerCase().equals("a")){
                     curr = turn(p, curr, s, 1);
                 }
-                if (input.toLowerCase().equals("w")){
+                else if (input.toLowerCase().equals("w")){
                     curr = turn(p, curr, s, 2);
                 }
-                if (input.toLowerCase().equals("d")){
+                else if (input.toLowerCase().equals("d")){
                     curr = turn(p, curr, s, 3);
                 }
                 else
