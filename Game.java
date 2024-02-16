@@ -52,13 +52,13 @@ public class Game {
                 {
                     System.out.println(p.getInv());
                 }
-                if (input.toLowerCase.equals("a")){
+                if (input.toLowerCase().equals("a")){
                     curr = turn(p, curr, s, 1);
                 }
-                if (input.toLowerCase.equals("w")){
+                if (input.toLowerCase().equals("w")){
                     curr = turn(p, curr, s, 2);
                 }
-                if (input.toLowerCase.equals("d")){
+                if (input.toLowerCase().equals("d")){
                     curr = turn(p, curr, s, 3);
                 }
                 else
